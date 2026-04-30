@@ -8,22 +8,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuGrids = document.querySelectorAll('.menu-grid');
     const contactForm = document.getElementById('contactForm');
     const heroScroll = document.querySelector('.hero-scroll');
-
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
     
+    // Theme Toggle
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (themeIcon) {
+        themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            if (themeIcon) {
+                themeIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            }
+        });
+    }
+    
+    // Custom Cursor - Desktop Only
     const cursorCircle = document.querySelector('.cursor-circle');
     const cursorOrbit = document.querySelector('.cursor-orbit');
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let circleX = mouseX;
-    let circleY = mouseY;
-    let orbitX = mouseX;
-    let orbitY = mouseY;
-
-    const circleSpeed = 0.15;
-    const orbitSpeed = 0.08;
-
     if (cursorCircle && cursorOrbit) {
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let circleX = mouseX;
+        let circleY = mouseY;
+        let orbitX = mouseX;
+        let orbitY = mouseY;
+
+        const circleSpeed = 0.15;
+        const orbitSpeed = 0.08;
+
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -58,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
     
+    // Navbar Scroll Effect
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -69,8 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
     
+    // Mobile Menu Toggle
     if (navToggle && navMenu) {
         navToggle.addEventListener('click', () => {
             navToggle.classList.toggle('active');
@@ -84,8 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
     
+    // Smooth Anchor Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -103,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
     
+    // Menu Category Tabs
     if (menuTabs.length && menuGrids.length) {
         menuTabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -121,8 +142,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
     
+    // Active Section Highlighting
     const sections = document.querySelectorAll('section[id]');
     const observerOptions = {
         root: null,
@@ -147,8 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
     sections.forEach(section => {
         sectionObserver.observe(section);
     });
-
     
+    // Contact Form
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -161,18 +182,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const btn = contactForm.querySelector('button[type="submit"]');
             const originalText = btn.textContent;
-            btn.textContent = 'Message Sent!';
-            btn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+            btn.textContent = 'Sent!';
             contactForm.reset();
 
             setTimeout(() => {
                 btn.textContent = originalText;
-                btn.style.background = '';
             }, 3000);
         });
     }
-
     
+    // Hero Scroll Click
     if (heroScroll) {
         heroScroll.addEventListener('click', () => {
             const aboutSection = document.getElementById('about');
